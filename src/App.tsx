@@ -1,29 +1,37 @@
-import React from 'react';
-import './App.css';
-import Web3 from 'web3';
-import { connectWallet, getWeb3 } from './web3';
-import ERC20 from './abi/ERC20.json';
+import React from "react";
+import "./App.css";
+import Web3 from "web3";
+import { connectWallet, getWeb3 } from "./web3";
+import ERC20 from "./abi/ERC20.json";
+import ConnectWalletButton from "./component/ConnectWalletButton";
+import TokenDetail from "./component/TokenDetail";
+import useWeb3 from "./hooks/useWeb3";
 
-declare global{
-   interface Window{
-    ethereum:any
-   }
+declare global {
+  interface Window {
+    ethereum: any;
+  }
 }
 
-const getTotalSupply = async () =>{
-    const web3 = getWeb3();
+const getTotalSupply = async () => {
+  const web3 = getWeb3();
 
-   const chainlink= new web3.eth.Contract(ERC20 as any,'0x514910771AF9Ca656af840dff83E8264EcF986CA');
+  const chainlink = new web3.eth.Contract(
+    ERC20 as any,
+    "0x514910771AF9Ca656af840dff83E8264EcF986CA"
+  );
 
-   const totalSupply = await chainlink.methods.totalSupply().call();
-   console.log('Total Chainlink Supply:', totalSupply);
-}
+  const totalSupply = await chainlink.methods.totalSupply().call();
+  console.log("Total Chainlink Supply:", totalSupply);
+};
 
 function App() {
+  const { isConnected } = useWeb3();
+  console.log(isConnected);
   return (
-    <div >
-      <button onClick={connectWallet}>Connect to wallet</button>
-      <button onClick={getTotalSupply}>Total Chainlink supply</button>
+    <div>
+      <ConnectWalletButton />
+      {isConnected && <TokenDetail />}
     </div>
   );
 }
