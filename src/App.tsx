@@ -15,7 +15,8 @@ const getTotalSupply = async () =>{
 
    const chainlink= new web3.eth.Contract(ERC20 as any,'0x514910771AF9Ca656af840dff83E8264EcF986CA');
 
-   console.log(await chainlink.methods.totalSupply().call());
+   const totalSupply = await chainlink.methods.totalSupply().call();
+   console.log('Total Chainlink Supply:', totalSupply);
 }
 
 function App() {
