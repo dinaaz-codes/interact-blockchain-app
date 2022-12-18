@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import Web3 from "web3";
 import { connectWallet, getWeb3 } from "./web3";
@@ -26,11 +26,15 @@ const getTotalSupply = async () => {
 };
 
 function App() {
-  const { isConnected } = useWeb3();
-  console.log(isConnected);
+  const { isConnected, connectWallet } = useWeb3();
+
+  useEffect(()=>{
+    console.log(isConnected)
+  },[isConnected]);
+
   return (
     <div>
-      <ConnectWalletButton />
+      <ConnectWalletButton isConnected={isConnected} onClickHandler={connectWallet}/>
       {isConnected && <TokenDetail />}
     </div>
   );
