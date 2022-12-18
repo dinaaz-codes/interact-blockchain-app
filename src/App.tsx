@@ -1,11 +1,15 @@
 import React, { useEffect } from "react";
 import "./App.css";
-import Web3 from "web3";
-import { connectWallet, getWeb3 } from "./web3";
+import { getWeb3 } from "./web3";
 import ERC20 from "./abi/ERC20.json";
 import ConnectWalletButton from "./component/ConnectWalletButton";
 import TokenDetail from "./component/TokenDetail";
 import useWeb3 from "./hooks/useWeb3";
+import { Route, Routes } from "react-router-dom";
+import ViewTokenDetails from "./pages/ViewTokenDetails";
+import ViewAllowance from "./pages/ViewAllowance";
+import Home from "./pages";
+import Nav from "./component/Nav";
 
 declare global {
   interface Window {
@@ -13,29 +17,15 @@ declare global {
   }
 }
 
-const getTotalSupply = async () => {
-  const web3 = getWeb3();
-
-  const chainlink = new web3.eth.Contract(
-    ERC20 as any,
-    "0x514910771AF9Ca656af840dff83E8264EcF986CA"
-  );
-
-  const totalSupply = await chainlink.methods.totalSupply().call();
-  console.log("Total Chainlink Supply:", totalSupply);
-};
-
 function App() {
-  const { isConnected, connectWallet } = useWeb3();
-
-  useEffect(()=>{
-    console.log(isConnected)
-  },[isConnected]);
-
   return (
     <div>
-      <ConnectWalletButton isConnected={isConnected} onClickHandler={connectWallet}/>
-      {isConnected && <TokenDetail />}
+      <Nav/>
+      <Routes>
+        <Route path="/" element={<Home />}></Route>
+        <Route path="/token-detail" element={<ViewTokenDetails/>}></Route>
+        <Route path="/allowance" element={<ViewAllowance/>}></Route>
+      </Routes>
     </div>
   );
 }

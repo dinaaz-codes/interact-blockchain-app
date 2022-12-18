@@ -9,7 +9,6 @@ type Props = {
 }
 
 const ConnectWalletButton = ({isConnected , onClickHandler}:Props) => {
-
   return (
     <Button disabled={isConnected} variant="light" onClick={onClickHandler}>
       <FontAwesomeIcon  icon={faCircle} color= {isConnected? "green":"red"}/> Connect
